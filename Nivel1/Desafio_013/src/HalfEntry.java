@@ -10,7 +10,7 @@ public class HalfEntry extends Ticket {
 
     }
 
-    public void halfEntry(){
+    public void ValueHalfEntry(){
         half = getValue() / 2;
         setValue(half);
     }
