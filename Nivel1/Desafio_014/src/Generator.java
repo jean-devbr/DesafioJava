@@ -1,3 +1,4 @@
+// java
 // src/Generator.java
 import java.util.Scanner;
 
@@ -7,14 +8,18 @@ public class Generator {
     private String password;
     private boolean adm;
 
+    private Product product;
+
     public Generator(String name, String email, String password, boolean adm) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.adm = adm;
+        this.product = new Product();
     }
 
     public Generator() {
+        this.product = new Product();
     }
 
     public String getName() {
@@ -65,15 +70,17 @@ public class Generator {
             System.out.println("2 - Out");
             System.out.println("3 - Financial");
             System.out.println("4 - Seles consultation");
+            System.out.println("5 - Makes Sale");
             System.out.print("Insert: ");
             startNumber = sc.nextInt();
             sc.nextLine();
             if (startNumber == 1)
                 changesLogin(sc);
+            else if (startNumber == 5)
+                product.sale(sc);
         }
     }
 
-    // Método de login que recebe o Scanner para ler entrada do usuário
     public void login(Scanner sc) {
         System.out.print("Enter your name: ");
         setName(sc.nextLine());
@@ -88,7 +95,7 @@ public class Generator {
     public void verification (Scanner sc) {
 
         while (!email.equals("adm") && !email.equals("seller") && !email.equals("attendant")) {
-            System.out.print("Erro! \nEnter the correct email again: ");
+            System.out.print("Erro! \\nEnter the correct email again: ");
             setEmail(sc.nextLine());
         }
 
@@ -102,7 +109,6 @@ public class Generator {
 
         else if (email.equals("attendant")) {
             System.out.println("Welcome, attendant: " + getName());
-
         }
     }
 
@@ -121,7 +127,6 @@ public class Generator {
             System.out.print("New password: ");
             setPassword(sc.nextLine());
         }
-
     }
 
     public void Financial() {

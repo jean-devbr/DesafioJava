@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Seller extends Generator {
     private Integer amount;
 
@@ -22,8 +24,4 @@ public class Seller extends Generator {
         
     }
 
-    public void makeSale() {
-     System.out.println("You sold sneakers worth 10 dollars");
-
-    }
 }
