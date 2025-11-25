@@ -49,6 +49,30 @@ public class Generator {
         this.adm = adm;
     }
 
+    public void start(Scanner sc) {
+        System.out.println("Choose the option");
+        System.out.println("1 - Login");
+        System.out.println("2 - Out");
+        System.out.print("Insert: ");
+        int startNumber  = sc.nextInt();
+        sc.nextLine();
+
+        login(sc);
+        verification(sc);
+        while (startNumber != 2) {
+
+            System.out.println("1 - Changes Login");
+            System.out.println("2 - Out");
+            System.out.println("3 - Financial");
+            System.out.println("4 - Seles consultation");
+            System.out.print("Insert: ");
+            startNumber = sc.nextInt();
+            sc.nextLine();
+            if (startNumber == 1)
+                changesLogin(sc);
+        }
+    }
+
     // Método de login que recebe o Scanner para ler entrada do usuário
     public void login(Scanner sc) {
         System.out.print("Enter your name: ");
@@ -80,6 +104,28 @@ public class Generator {
             System.out.println("Welcome, attendant: " + getName());
 
         }
+    }
+
+    public void changesLogin(Scanner sc) {
+        System.out.println("What data do you want to change?");
+        System.out.println("1 - Name");
+        System.out.println("2 - Password");
+        System.out.print("Insert: ");
+        int changesLoginNumber = sc.nextInt();
+        sc.nextLine();
+        if (changesLoginNumber == 1) {
+            System.out.print("New name: ");
+            setName(sc.nextLine());
+        }
+        else if (changesLoginNumber == 2) {
+            System.out.print("New password: ");
+            setPassword(sc.nextLine());
+        }
+
+    }
+
+    public void Financial() {
+
     }
 
 }

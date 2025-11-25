@@ -21,4 +21,9 @@ public class Seller extends Generator {
     public void amountSales() {
         
     }
+
+    public void makeSale() {
+     System.out.println("You sold sneakers worth 10 dollars");
+
+    }
 }
