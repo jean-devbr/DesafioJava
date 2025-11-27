@@ -8,7 +8,7 @@ public class Generator {
     private String password;
     private boolean adm;
 
-    private Product product;
+    protected Product product;
 
     public Generator(String name, String email, String password, boolean adm) {
         this.name = name;
@@ -54,6 +54,12 @@ public class Generator {
         this.adm = adm;
     }
 
+    // Helper to read a line with a prompt (avoid repeating code)
+    protected String prompt(Scanner sc, String message) {
+        System.out.print(message);
+        return sc.nextLine();
+    }
+
     public void start(Scanner sc) {
         System.out.println("Choose the option");
         System.out.println("1 - Login");
@@ -64,6 +70,20 @@ public class Generator {
 
         login(sc);
         verification(sc);
+
+        // criar instâncias específicas dependendo do tipo de usuário
+        Seller seller = null;
+        Attendant attendant = null;
+        Manager manager = null;
+
+        if (getEmail().equals("seller")) {
+            seller = new Seller(getName(), getEmail(), getPassword(), false, 0);
+        } else if (getEmail().equals("attendant")) {
+            attendant = new Attendant(getName(), getEmail(), getPassword(), false, 0.0);
+        } else if (getEmail().equals("adm")) {
+            manager = new Manager(getName(), getEmail(), getPassword(), true);
+        }
+
         while (startNumber != 2) {
 
             System.out.println("1 - Changes Login");
@@ -74,22 +94,35 @@ public class Generator {
             System.out.print("Insert: ");
             startNumber = sc.nextInt();
             sc.nextLine();
-            if (startNumber == 1)
-                changesLogin(sc);
-            else if (startNumber == 5)
-                product.sale(sc);
+            if (startNumber == 1) {
+                // reutiliza o método herdado para alterar nome/senha
+                if (seller != null) seller.changesLogin(sc);
+                else if (attendant != null) attendant.changesLogin(sc);
+                else if (manager != null) manager.changesLogin(sc);
+                else changesLogin(sc);
+            }
+            else if (startNumber == 5) {
+                if (seller != null) seller.makeSale(sc);
+                else System.out.println("Only sellers can make sales.");
+            }
+            else if (startNumber == 3) {
+                if (manager != null) manager.generateFinancialReport();
+                else System.out.println("Access denied: only manager can view financial report.");
+            }
+            else if (startNumber == 4) {
+                if (manager != null) manager.consultSales();
+                else if (seller != null) seller.consultSales();
+                else System.out.println("No sales to consult.");
+            }
         }
     }
 
     public void login(Scanner sc) {
-        System.out.print("Enter your name: ");
-        setName(sc.nextLine());
+        setName(prompt(sc, "Enter your name: "));
 
-        System.out.print("Enter your email: ");
-        setEmail(sc.nextLine());
+        setEmail(prompt(sc, "Enter your email: "));
 
-        System.out.print("Enter your password: ");
-        setPassword(sc.nextLine());
+        setPassword(prompt(sc, "Enter your password: "));
     }
 
     public void verification (Scanner sc) {
@@ -131,6 +164,22 @@ public class Generator {
 
     public void Financial() {
 
+    }
+
+    // novo método de logoff
+    public void logoff() {
+        // podemos limpar os dados ou apenas informar o usuário
+        this.name = null;
+        this.email = null;
+        this.password = null;
+        System.out.println("You have been logged off.");
+    }
+
+    // alterar senha (método reutilizável)
+    public void changePassword(Scanner sc) {
+        System.out.print("Enter new password: ");
+        setPassword(sc.nextLine());
+        System.out.println("Password updated.");
     }
 
 }
